@@ -115,7 +115,7 @@ cell_list = [[points_list[0], points_list[11]], [points_list[1], points_list[12]
             [points_list[133], points_list[141]], [points_list[134], points_list[142]],
             [points_list[135], points_list[143]], [points_list[136], points_list[144]]]
 class_names = ["Bump", "Column", "Dent", "Fence", "Creature", "Vehicle", "Wall", "Weed", "ZebraCrossing", "TrafficCone",
-               "TrafficSign", "Road", "Background"]
+               "TrafficSign", "Background"]
 color_box = [(10, 249, 72), (151, 157, 255), (134, 219, 61), (52, 147, 26), (29, 178, 255), (31, 112, 255), (49, 210, 207),
          (23, 204, 146), (56, 56, 255), (187, 212, 0), (168, 153, 44)]
 def random_augmentation(image, label_list, seq_list):
@@ -172,7 +172,7 @@ test_dataset = MultiLabelRGBataSet(img_dir, test_img, label_dir, train=0)
 def pred_plot(frame, original, output):
     orig = original.detach().numpy()
     output = output.detach().numpy()
-    pred = np.where(output > 0.001, 1, 0).tolist()
+    pred = np.where(output > 0.5, 1, 0).tolist()
     cell = 0
     normal = np.asarray([0] * NumClass + [1])
     for rect in cell_list:
@@ -198,6 +198,8 @@ def pred_plot(frame, original, output):
             else:
                 text_scale = min(max(poly_area / 10000, 0.3), 0.6)
             for i in index:
+                if i == NumClass:
+                    continue
                 text_size, _ = cv2.getTextSize(class_names[i], cv2.FONT_HERSHEY_SIMPLEX, text_scale, 2)
                 texts.append((class_names[i], text_size, text_scale))
             text_origin = [center_x, center_y - sum(text[1][1] for text in texts) // 2]
