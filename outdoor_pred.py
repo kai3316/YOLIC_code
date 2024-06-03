@@ -208,7 +208,7 @@ def pred_plot(frame, original, output):
             for text, text_size, text_scale in texts:
                 text_origin[0] = center_x - text_size[0] // 2  # 每行的x坐标需要重新计算以保证居中
                 text_origin[1] += int(text_size[1] * line_spacing)  # y坐标加上当前行文本的高度的一部分
-                # cv2.putText(frame, text, tuple(text_origin), cv2.FONT_HERSHEY_SIMPLEX, text_scale, (255, 255, 255), 1)
+                cv2.putText(frame, text, tuple(text_origin), cv2.FONT_HERSHEY_SIMPLEX, text_scale, (255, 255, 255), 1)
                 text_origin[1] += int(text_size[1] * line_spacing)  # y坐标再加上当前行文本的高度的一部分，为下一行文本做准备
             cv2.rectangle(frame, tuple(rect[0]), tuple(rect[1]), color=color, thickness=3)
         cell += NumClass + 1
